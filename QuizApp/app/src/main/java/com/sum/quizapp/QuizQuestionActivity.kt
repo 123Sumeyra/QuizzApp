@@ -16,5 +16,28 @@ class QuizQuestionActivity : AppCompatActivity() {
 
         val questionList = Constant.getQuestion()
         Log.i("Question Size:", "${questionList.size}")
+
+        val  currentPosition =1
+        val question:Question ?= questionList[currentPosition-1]
+
+        binding.progressBar.progress =currentPosition
+        binding.tvProgress.text = "$currentPosition" + "/" + binding.progressBar.max
+
+        binding.tvQuestion.text = question!!.question
+        binding.image.setImageResource(question.image)
+        binding.optionOne.text = question.optionOne
+        binding.optionTwo.text = question.optionTwo
+        binding.optionThree.text = question.optionThree
+        binding.optionFour.text = question.optionFour
+
+
+
+
+
+
+
+
+
+
     }
 }
