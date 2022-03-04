@@ -77,7 +77,26 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    override fun onClick(p0: View?) {
-        TODO("Not yet implemented")
+    override fun onClick(v: View?) {
+        when(v?.id){
+            R.id.option_one ->{ selectedOptionView(binding.optionOne,1) }
+            R.id.option_two ->{ selectedOptionView(binding.optionTwo,2) }
+            R.id.option_three ->{ selectedOptionView(binding.optionThree,3) }
+            R.id.option_four ->{ selectedOptionView(binding.optionFour,4) }
+
+        }
+
+
+    }
+
+    private  fun selectedOptionView(tv:TextView, selectedOptionNum:Int){
+        defaultOptionsView()
+        selecedOption =selectedOptionNum
+
+        tv.setTextColor(Color.parseColor("#555151"))
+        tv.setTypeface(tv.typeface, Typeface.BOLD)
+        tv.background= ContextCompat.getDrawable(
+            this,R.drawable.selected_option_one_border)
+
     }
 }
