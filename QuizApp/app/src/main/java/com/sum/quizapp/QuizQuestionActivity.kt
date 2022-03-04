@@ -4,21 +4,21 @@ import android.graphics.Color
 import android.graphics.Typeface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.sum.quizapp.databinding.ActivityQuizQuestionBinding
-import org.w3c.dom.Text
+
 
 class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
-
+    private lateinit var binding:ActivityQuizQuestionBinding
     private var currentPosition:Int=1
     private var questionList:ArrayList<Question> ? = null
     private var selecedOption:Int=0
 
 
-    private lateinit var binding:ActivityQuizQuestionBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityQuizQuestionBinding.inflate(layoutInflater)
@@ -34,20 +34,29 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
         binding.optionTwo.setOnClickListener(this)
         binding.optionThree.setOnClickListener(this)
         binding.optionFour.setOnClickListener(this)
+        binding.btnSubmit.setOnClickListener(this)
 
 
 
     }
 
     private fun setQuestion(){
-        currentPosition =1
-        val question =questionList!![currentPosition-1]
+        //currentPosition =1
+        val question = questionList!![currentPosition-1]
         defaultOptionsView()
 
-        binding.progressBar.progress =currentPosition
-        binding.tvProgress.text = "$currentPosition" + "/" + binding.progressBar.max
+        if(currentPosition == questionList!!.size){
+            binding.btnSubmit.text ="FINISH"
+        }
+        else{
+            binding.btnSubmit.text ="SUBMIT"
+        }
 
-        binding.tvQuestion.text = question!!.question
+        binding.progressBar.progress =currentPosition
+        binding.progressBar.max =questionList!!.size
+        binding.tvProgress.text = "$currentPosition" + "/" + questionList!!.size
+
+        binding.tvQuestion.text = question.question
         binding.image.setImageResource(question.image)
         binding.optionOne.text = question.optionOne
         binding.optionTwo.text = question.optionTwo
@@ -83,10 +92,51 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
             R.id.option_two ->{ selectedOptionView(binding.optionTwo,2) }
             R.id.option_three ->{ selectedOptionView(binding.optionThree,3) }
             R.id.option_four ->{ selectedOptionView(binding.optionFour,4) }
+            R.id.btn_submit -> {
+                if(selecedOption == 0){
+
+                    currentPosition ++
+
+
+                    when{
+                        currentPosition <= questionList!!.size-> {setQuestion()}
+                        else-> { Toast.makeText(this,"You have successfull completed",Toast.LENGTH_SHORT).show() }
+                    }
+
+
+                } else{
+
+                    val question = questionList?.get(currentPosition-1)
+                    if(question!!.correctAnswer !=selecedOption){
+                        answeView(selecedOption, R.drawable.wrong_option_one_border)
+                       // answeView(question.correctAnswer,R.drawable.correct_option_one_border)
+
+                    }
+                    answeView(question.correctAnswer,R.drawable.correct_option_one_border)
+
+                }
+
+                if(currentPosition == questionList?.size){
+                    binding.btnSubmit.text ="FINISH"
+
+                }else{
+                    binding.btnSubmit.text = "Go To Next Question"
+                }
+                selecedOption =0
+            }
 
         }
 
 
+    }
+
+    private fun answeView(answer:Int,drawableView:Int){
+        when(answer){
+            1 ->{binding.optionOne.background = ContextCompat.getDrawable(this,drawableView)}
+            2 ->{binding.optionTwo.background =ContextCompat.getDrawable(this,drawableView)}
+            3 ->{binding.optionThree.background =ContextCompat.getDrawable(this,drawableView)}
+            4 ->{binding.optionFour.background = ContextCompat.getDrawable(this,drawableView)}
+        }
     }
 
     private  fun selectedOptionView(tv:TextView, selectedOptionNum:Int){

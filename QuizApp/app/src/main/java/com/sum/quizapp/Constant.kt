@@ -12,7 +12,7 @@ object Constant {
             "İndia",
             "Turkey",
             "Arjantina",
-            1
+            4
         )
 
         var question2 = Question(
@@ -34,7 +34,7 @@ object Constant {
             "İndia",
             "Turkey",
             "Arjantina",
-            1
+            3
         )
 
         var question4 = Question(
@@ -45,7 +45,7 @@ object Constant {
             "İndia",
             "Turkey",
             "Arjantina",
-            1
+            2
         )
 
         questionList.add(question1)
