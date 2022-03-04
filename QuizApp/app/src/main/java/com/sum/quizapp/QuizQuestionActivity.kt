@@ -1,5 +1,6 @@
 package com.sum.quizapp
 
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import androidx.appcompat.app.AppCompatActivity
@@ -16,6 +17,8 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
     private var currentPosition:Int=1
     private var questionList:ArrayList<Question> ? = null
     private var selecedOption:Int=0
+    private var correctNumber:Int=0
+    private var username:String ?= null
 
 
 
@@ -24,6 +27,7 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
         binding = ActivityQuizQuestionBinding.inflate(layoutInflater)
         val view =binding.root
         setContentView(view)
+        username = intent.getStringExtra(Constant.USER_NAME)
 
 
         questionList = Constant.getQuestion()
@@ -100,7 +104,12 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
 
                     when{
                         currentPosition <= questionList!!.size-> {setQuestion()}
-                        else-> { Toast.makeText(this,"You have successfull completed",Toast.LENGTH_SHORT).show() }
+                        else-> //{ Toast.makeText(this,"You have successfull completed",Toast.LENGTH_SHORT).show() }
+                        {val intent =Intent(this,ResultActivity::class.java)
+                        intent.putExtra(Constant.USER_NAME,username)
+                        intent.putExtra(Constant.CORRECT_ANSWER,correctNumber)
+                        intent.putExtra(Constant.TOTAL_QUESTİON, questionList!!.size)
+                        startActivity(intent)}
                     }
 
 
@@ -110,6 +119,9 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
                     if(question!!.correctAnswer !=selecedOption){
                         answeView(selecedOption, R.drawable.wrong_option_one_border)
                        // answeView(question.correctAnswer,R.drawable.correct_option_one_border)
+
+                    }else{
+                        correctNumber++
 
                     }
                     answeView(question.correctAnswer,R.drawable.correct_option_one_border)
