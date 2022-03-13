@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.sum.quizapp.databinding.ActivityQuizQuestionBinding
 
@@ -22,12 +21,14 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
 
 
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityQuizQuestionBinding.inflate(layoutInflater)
         val view =binding.root
         setContentView(view)
         username = intent.getStringExtra(Constant.USER_NAME)
+
 
 
         questionList = Constant.getQuestion()
@@ -49,16 +50,13 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
         val question = questionList!![currentPosition-1]
         defaultOptionsView()
 
-        if(currentPosition == questionList!!.size){
-            binding.btnSubmit.text ="FINISH"
-        }
-        else{
-            binding.btnSubmit.text ="SUBMIT"
-        }
+
+
+        binding.btnSubmit.text ="SUBMIT"
 
         binding.progressBar.progress =currentPosition
         binding.progressBar.max =questionList!!.size
-        binding.tvProgress.text = "$currentPosition" + "/" + questionList!!.size
+        binding.tvProgress.text = "$currentPosition" + "/" + (questionList!!.size)
 
         binding.tvQuestion.text = question.question
         binding.image.setImageResource(question.image)
@@ -104,12 +102,15 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
 
                     when{
                         currentPosition <= questionList!!.size-> {setQuestion()}
-                        else-> //{ Toast.makeText(this,"You have successfull completed",Toast.LENGTH_SHORT).show() }
+                        //{ Toast.makeText(this,"You have successfull completed",Toast.LENGTH_SHORT).show() }
+                        else->
                         {val intent =Intent(this,ResultActivity::class.java)
                         intent.putExtra(Constant.USER_NAME,username)
                         intent.putExtra(Constant.CORRECT_ANSWER,correctNumber)
                         intent.putExtra(Constant.TOTAL_QUESTİON, questionList!!.size)
-                        startActivity(intent)}
+                        startActivity(intent)
+
+                        }
                     }
 
 
@@ -126,7 +127,7 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
                     }
                     answeView(question.correctAnswer,R.drawable.correct_option_one_border)
 
-                }
+
 
                 if(currentPosition == questionList?.size){
                     binding.btnSubmit.text ="FINISH"
@@ -135,6 +136,7 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
                     binding.btnSubmit.text = "Go To Next Question"
                 }
                 selecedOption =0
+                }
             }
 
         }
@@ -159,6 +161,8 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
         tv.setTypeface(tv.typeface, Typeface.BOLD)
         tv.background= ContextCompat.getDrawable(
             this,R.drawable.selected_option_one_border)
+
+
 
     }
 }

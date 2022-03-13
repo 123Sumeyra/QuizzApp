@@ -3,12 +3,9 @@ package com.sum.quizapp
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.WindowInsets
-import android.view.WindowManager
+
 import android.widget.Toast
-import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.WindowInsetsControllerCompat
+
 import com.sum.quizapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {

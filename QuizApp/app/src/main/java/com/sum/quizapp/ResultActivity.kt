@@ -1,13 +1,14 @@
 package com.sum.quizapp
 
 import android.content.Intent
-import android.os.Binder
+
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.sum.quizapp.databinding.ActivityResultBinding
 
 class ResultActivity : AppCompatActivity() {
     private lateinit var binding: ActivityResultBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityResultBinding.inflate(layoutInflater)
@@ -17,8 +18,9 @@ class ResultActivity : AppCompatActivity() {
 
         val username =intent.getStringExtra(Constant.USER_NAME)
         binding.textViewUsername.text =username
-        val totalQuestion =intent.getStringExtra(Constant.TOTAL_QUESTİON)
-        val correctAnswer =intent.getStringExtra(Constant.CORRECT_ANSWER)
+        val totalQuestion =intent.getIntExtra(Constant.TOTAL_QUESTİON,0)
+        val correctAnswer =intent.getIntExtra(Constant.CORRECT_ANSWER,0)
+
 
         binding.textViewScore.text = "Your score is $correctAnswer out of $totalQuestion"
 
